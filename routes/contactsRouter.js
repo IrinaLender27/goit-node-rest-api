@@ -3,17 +3,18 @@ import {
   getAllContacts,
   getOneContact,
   deleteContact,
-  createContact,
   updateContact,
   updateStatusContact,
+  createContact,
 } from "../controllers/contactsControllers.js";
+
 import { isValidId } from "../helpers/isValidId.js";
 import { validateBody } from "../helpers/validateBody.js";
 import {
   createContactSchema,
   updateContactSchema,
   updateFavoriteSchema,
-} from "../schemas/contactsSchemas";
+} from "../schemas/contactsSchemas.js";
 
 const contactsRouter = express.Router();
 
@@ -37,4 +38,5 @@ contactsRouter.patch(
   validateBody(updateFavoriteSchema),
   updateStatusContact
 );
+
 export default contactsRouter;

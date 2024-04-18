@@ -16,4 +16,5 @@ const contactSchema = new Schema({
     default: false,
   },
 });
+
 export const Contact = model("contact", contactSchema);
