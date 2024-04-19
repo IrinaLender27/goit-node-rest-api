@@ -8,8 +8,8 @@ import {
   createContact,
 } from "../controllers/contactsControllers.js";
 
-import { isValidId } from "../helpers/isValidId.js";
-import { validateBody } from "../helpers/validateBody.js";
+import isValidId from "../helpers/isValidId.js";
+import validateBody from "../helpers/validateBody.js";
 import {
   createContactSchema,
   updateContactSchema,
