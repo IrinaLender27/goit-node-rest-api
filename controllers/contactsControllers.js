@@ -18,7 +18,7 @@ export const getOneContact = ctrlWrapper(async (req, res) => {
 
 export const deleteContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  const contactData = await Contact.findByIdAndRemove(id);
+  const contactData = await Contact.findByIdAndDelete(id);
   if (!contactData) {
     throw HttpError(404, "Not found");
   }
@@ -28,8 +28,9 @@ export const deleteContact = ctrlWrapper(async (req, res) => {
 });
 
 export const createContact = ctrlWrapper(async (req, res) => {
-  const newContact = await Contact.create(req.body);
-  res.status(201).json(result);
+  const { name, email, phone } = req.body;
+  const newContact = await Contact.create({ name, email, phone });
+  res.status(201).json(newContact);
 });
 
 export const updateContact = ctrlWrapper(async (req, res) => {
