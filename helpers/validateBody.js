@@ -11,5 +11,4 @@ const validateBody = (schema) => {
 
   return func;
 };
-
 export default validateBody;
