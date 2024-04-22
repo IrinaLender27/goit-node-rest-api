@@ -25,4 +25,4 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 userSchema.post("save", handleMongooseError);
-export const User = model("users", userSchema);
+export const User = model("user", userSchema);
