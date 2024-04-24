@@ -5,9 +5,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { token } from "morgan";
-
+import gravatar from "gravatar";
+import path from "path";
+import fs from "fs/promises";
+import Jimp from "jimp";
 dotenv.config();
 const { SECRET_KEY } = process.env;
+const avatarDir = path.join(process.cwd(), "public", "avatars");
 
 export const register = ctrlWrapper(async (req, res) => {
   const { email, password } = req.body;
@@ -16,8 +20,12 @@ export const register = ctrlWrapper(async (req, res) => {
     throw HttpError(409, "OOops,email already in use");
   }
   const hashPassword = await bcrypt.hash(password, 10);
-
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const avatarURL = gravatar.url(email);
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+    avatarURL,
+  });
   res.status(201).json({
     email: newUser.email,
     password: newUser.password,
@@ -58,4 +66,17 @@ export const logout = ctrlWrapper(async (req, res) => {
   res.json({
     message: "Logout success",
   });
+});
+
+export const updateAvatar = ctrlWrapper(async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+  const avatarImage = await Jimp.read(tempUpload);
+  await avatarImage.resize(250, 250);
+  const filname = `${_id}_${originalname}`;
+  const resultUpload = path.join(avatarDir, filname);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join("avatars", filname);
+  await User.findByIdAndUpdate(_id, { avatarURL });
+  res.json({ avatarURL });
 });
