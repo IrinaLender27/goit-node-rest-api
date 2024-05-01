@@ -9,6 +9,7 @@ import gravatar from "gravatar";
 import path from "path";
 import fs from "fs/promises";
 import Jimp from "jimp";
+import { nanoid } from "nanoid";
 dotenv.config();
 const { SECRET_KEY } = process.env;
 const avatarDir = path.join(process.cwd(), "public", "avatars");
@@ -21,10 +22,12 @@ export const register = ctrlWrapper(async (req, res) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
+  const verificationCode = nanoid();
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     avatarURL,
+    verificationCode,
   });
   res.status(201).json({
     email: newUser.email,
