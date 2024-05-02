@@ -1,6 +1,10 @@
 import express from "express";
 import validateBody from "../helpers/validateBody.js";
-import { registerSchema, loginSchema } from "../schemas/userSchema.js";
+import {
+  registerSchema,
+  loginSchema,
+  emailSchema,
+} from "../schemas/userSchema.js";
 import {
   register,
   login,
