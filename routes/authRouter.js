@@ -7,6 +7,8 @@ import {
   getCurrent,
   logout,
   updateAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } from "../controllers/authController.js";
 import authenticate from "../helpers/authenticate.js";
 import upload from "../helpers/upload.js";
@@ -14,6 +16,8 @@ import upload from "../helpers/upload.js";
 const authRouter = express.Router();
 // signup
 authRouter.post("/register", validateBody(registerSchema), register);
+authRouter.get("/verify/:verificationToken", verifyEmail);
+authRouter.post("/verify", validateBody(emailSchema), resendVerifyEmail);
 // signin
 authRouter.post("/login", validateBody(loginSchema), login);
 //current

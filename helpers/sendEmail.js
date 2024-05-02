@@ -13,13 +13,12 @@ const nodemailerConfig = {
   },
 };
 const transport = nodemailer.createTransport(nodemailerConfig);
-const email = {
-  to: "irina.lender@ukr.net",
-  from: "iryna.lender@meta.ua",
-  subject: "Test email",
-  html: "<p><strong>Test email</strong> from localhost:3000</p>",
+
+export const sendEmail = async (data) => {
+  const email = {
+    ...data,
+    from: "iryna.lender@meta.ua",
+  };
+  await transport.sendMail(email);
+  return true;
 };
-transport
-  .sendMail(email)
-  .then(() => console.log("Email send success"))
-  .catch((error) => console.log(error.message));
